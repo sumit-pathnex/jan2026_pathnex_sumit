@@ -1,0 +1,127 @@
+  # day01 - basics 
+
+  ##  🔹 ansible task - install nginx on sumit-pathnex server
+
+
+---
+
+- name: install nginx on  sumit-pathnex server
+  hosts: all
+  become: yes
+
+
+  tasks:
+     - name: install nginx
+       apt:
+         name: nginx
+	 state: present
+
+
+
+
+	 ## 🔹 terraform task - create ec2 (c5.xlarge)
+
+
+
+	 provider "aws" {
+
+	   region = "us-east-1" 
+        }
+
+
+	resource "aws_instance" "sumitec2"  {
+	  
+	  ami          = "ami-0abcd1234abcd1234"
+
+	  instance_type = "c5.xlarge"
+          
+	  tags = {
+	    
+	    name = "sumit-ec2" 
+
+	    }
+
+	  }
+
+
+
+
+   ## 🔹 kubernetes task - create nginx pod
+
+
+   api version: v1
+   
+   kind: pod
+
+   metadata: 
+
+     name: sumit-pod
+
+  spec: 
+
+    containers: 
+
+     - name: web
+       
+       image: nginx:latest
+
+       ports:
+
+         - containerport: 80
+
+
+
+  ##  🔹 shell script - ptint date & hostname  
+
+  #!/bin/bash
+
+  echo "date: $(date)"
+
+  echo "hostname: $(hostname)" 
+
+
+  # git integration 
+
+  ##  🔹 jenkins pipeline - checkout git 
+
+  we will learn how to **checkout a git repository** and list files.
+
+  
+  pipeline {
+
+      agent any stages {
+                    
+		    stage('checkout') { 
+
+		       steps {
+
+		           git branch: 'main' , url: 'git@github.com:sumit-pathnex/jan2026_pathnex_sumit.git'
+
+			}
+
+		}
+
+	}
+
+}
+
+
+  ##  🔹gitlab ci - checkout git 
+
+  we will learn how to **checkout a git repository in gitlab ci**
+
+  stages:
+    
+    - checkout
+
+  git-checkout:
+
+    stage: checkout
+
+    script:
+
+    - git clone 'git@github.com:sumit-pathnex/jan2026_pathnex_sumit.git'
+
+    - cd jan2026_pathnex_sumit
+
+    - ls -la
