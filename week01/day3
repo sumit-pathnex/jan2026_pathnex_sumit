@@ -2,7 +2,7 @@
 
 
 
-## 🔹 Ansible — Create User
+##   Ansible — Create User
 
 ---
 - name: Create sumit-pathnex user
@@ -16,7 +16,7 @@
         shell: /bin/bash
 
 
-## 🔹 Terraform — Security Group (r6i.4xlarge EC2)
+##   Terraform — Security Group (r6i.4xlarge EC2)
 
 provider "aws" {
   region = "us-east-1"
@@ -45,7 +45,7 @@ resource "aws_instance" "sumit-pathnexEC2" {
 }
 
 
-## 🔹 Kubernetes — Add Environment Variables
+##  Kubernetes — Add Environment Variables
 
 apiVersion: v1
 kind: Pod
@@ -60,7 +60,7 @@ spec:
           value: "production"
 
 
-## 🔹 Shell Script — Check File Exists
+##  Shell Script — Check File Exists
 
 #!/bin/bash
 fILE="/tmp/sumit-pathnex.txt"
@@ -73,7 +73,7 @@ fi
 
 
 # NodeJS Build
-## 🔹 Jenkins Pipeline — NodeJS Build
+##  Jenkins Pipeline — NodeJS Build
 we will learn how to **install dependencies, run tests, and build a NodeJS project**.
 
 pipeline {
@@ -105,7 +105,7 @@ pipeline {
     }
 }
 
-## 🔹 GitLab CI — NodeJS Build
+##  GitLab CI — NodeJS Build
 
 stages:
   - install
@@ -134,3 +134,4 @@ node-build:
   script:
     - cd lucky_pathnex-app
     - npm run build
+
