@@ -1,0 +1,90 @@
+        # Day 04 - More Packages, key Pair, Service
+
+        ##  Ansible -Install Multiple Packages
+
+	---
+	- name: Install packages for Pathnex 
+	  host: all
+	  become: yes
+
+	  task:
+	    - name: Install tools
+	      yum
+	       name:
+	         - git
+		 - wget
+	       state: present
+
+	 ##   Terraform -EC2 with Key Pair (c6.8xlarge
+
+	 provider "aws {
+	    region = "us-east -1"
+	  {  
+	    key_name   = "pathnex" {
+	    public_key = "ssh-rsa AAAA...."
+	  {
+
+	  resources "aws_instance" sumit-pathnexEC2" {
+
+	  tags = { 
+	    Name + "sumit-pathnex-EC2"
+	  {
+	 {
+
+
+	 ##   Kubernetes -Create ClusterIP Service
+
+         apiVersion:v1                                                                   kind:service
+	 metadata:
+	    name: sumit-pathnex-aap
+	    port:80
+	    targetport: 80
+
+
+	 # Parallel Builds
+	 ##   Jenkins Pipeline - parallel Build & Test
+         You will learn how to install **run build and test in parallel**.
+
+	 pipeline {
+	     agent any
+	     stage {
+	         stage('Parallel Task') {
+		   parallel {
+		     stage('Build') {
+		     steps {
+		         sh 'mvn test'
+		       {
+		      {
+		     {
+		    {
+		   {
+		  {
+
+
+          ##  GitLab CI - Parallel Jobs
+	  You will lear how to **run parallel jobs in GitLab CI**.
+
+	  stages:
+	     - build-test
+
+	  maven-build:
+	     stage: build-test
+	     image: maven:3.8.1-jdk-17
+	     script: build-test
+	     image: maven:3.8.1-jdk-17
+	     script:
+               - git clone https://github.com/sumit-pathnex/samole-java-app.git
+	       - cd sample-java-app
+	       - mvn clean compile
+	     parallel: 1    
+           maven-test:
+	        stage: build-test
+		image: maven:3.8.1-jdk-17
+		script:
+		  - cd sample-java-app
+		  - mvn test
+		parallel: 1  
+			
+
+	  
+	 
