@@ -3,7 +3,7 @@
         ##  Ansible -Install Multiple Packages
 
 	---
-	- name: Install packages for Pathnex 
+	- name: Install packages for sumit-Pathnex 
 	  host: all
 	  become: yes
 
@@ -20,7 +20,7 @@
 	 provider "aws {
 	    region = "us-east -1"
 	  {  
-	    key_name   = "pathnex" {
+	    key_name   = "sumit-pathnex" {
 	    public_key = "ssh-rsa AAAA...."
 	  {
 
