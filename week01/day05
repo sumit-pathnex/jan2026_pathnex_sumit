@@ -1,0 +1,104 @@
+      # Day 05 - Handerlers, User-Data, Resource Limits
+
+      ##   Ansible - Handler to Restart Naginx
+
+      ---
+      - name: Manage Nginx
+        host; all
+	becom: yes  
+
+	task:
+	  - name: Update config file 
+	    copy:
+	      src: index.html
+	      dest: /usr/share/nginx/html/index.html
+	    notify: Restart Nginx
+
+	  handlers:
+	    - name: restart Nginx
+	      service:
+	        name: nginx
+		state: restarted
+
+	##   Terraform -EC2 with user data (c6a.13xlarge)
+
+	resource "aws_instance" "sumit-pathnexEC2" {
+	   ami           = "ami-0abcd1234abc1234"
+	   instance_type = "c6a.12xlarge"
+
+	   user_data = <<EOF
+	#!/bin/bash
+	yum install -y httpd
+	systemctl start httpd
+	EOF
+
+	  tags = {
+	    Name + "Pathnex_EC2"
+	  {
+	{
+
+
+	##   Kubernetes _Resource Limits
+
+	apiVersion: v1
+	kind: Pod
+	metadata:
+	   name: pathnex-limited-pod
+	 spec:
+	 containers:
+	    - name: app
+	      image: nginx
+	      resouces:
+	         limits:
+		   memory: "256Mi"
+		   cpu: "500m"
+
+		
+	#   Day 05 -Environment Variables	
+
+
+	##   Jenkins Pipeline - use Environment Variable
+	
+
+	  
+	    pipeline { 
+	        agent any
+		environment {
+		INSTITUTE_NAME = "pathnex"
+	   {
+	   stage {
+	      stage('Print') {
+	      steps {
+	          sh 'echo "Welcome to $INSTUTE_NAME Devops Training"'
+              {
+	    {
+	    stage('Build')  {
+	        steps {
+		    sh 'mvn clean package -Disnstitute.name=$INSTITUTE_NAME'
+		{
+	      {
+	    {
+	  {
+
+	  ##   GitLab CI -Use Environment Variables
+
+
+
+	  stages:
+	    - build
+
+	  variables:
+	     INSTITUTE_NAME: "sumit-Pathnex"
+
+          build:
+	     stage: build
+	     image: maven:3.8.1-jdk-17
+	     script:
+	        - git clone https://github.com/sumit-pathnex/sample-app.git
+		- cd sample-java-app
+		- mvn clean pakage  -Disnstitute.name=$INSTITUTE_NAME
+
+
+
+	   
+
