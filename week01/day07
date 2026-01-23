@@ -1,0 +1,57 @@
+      #   Day 07 - SPEED TYPING
+
+      Rewrite All Four From scratch:
+
+      1. Ansible: Install nginx
+      2. Terraform: EC2 (choose any pathnex instance)
+      3. Kubernetes: Deployment 2 replicas
+      4. Shell: Print date + uptime
+
+      set a timer: **20 minutes**
+
+
+      # Parameterized Builds
+
+      ##  Jenkins pipeline - Parameterizwd
+
+
+      pipeline {
+          agent any
+	  parameters {
+              string(name: 'ENVIRONMENT', defaultValue: 'dev,description: 'Deployment Environmnt')
+          {
+	  environment{
+	      INSTITUTE_NAME + "sumit-pathnex"
+	  }
+	  stages('checkout') {
+	      steps {
+	         git url: 'https://github.com/sumit-pathnex/sample-java-app.git'
+	       }
+	    }
+	    stage('Deploy') {
+	       steps {
+	         sh 'echo "Deploying to $ENVIRONMENT by $INSTITUTE_NAME"'
+	       {
+	    {
+	 {
+      {
+
+      ##   GitLab CI - Parameterized via variables
+
+
+      stages:
+         - deploy
+
+        variables:
+	   INSTITUTE_NAME: "sumit-pathnex"
+	   ENVIRONMENT: "dev"
+
+
+	 deploy:
+	    stages: deploy
+	    image: alpine:latest
+	    script:
+	      - echo "Deploying to $ENVIRONMENT by $INSTITUTE NAME"
+	      
+	      
+
