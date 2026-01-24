@@ -1,0 +1,134 @@
+      # Day 08 - Veriable,VPC, Probe,Loops
+
+      ##   Ansible - Install Packages Using Variable
+
+      ---
+      - name: Install packages for sumit-pathnex Using Variables
+        hosts: all
+	become: yes
+
+	vars:
+	  sumit-pathnex_packages:
+	       - tree
+	       - unzip
+	       - vim
+
+	tasks:
+	  - name: Install required packages
+	    yum:
+	      name: "{{sumit-pathnex_packages}}"
+	      state: present
+
+
+       ##   Terraform - Create VPC + Subnet
+
+       provider "aws" {
+         region = "us-east-1"
+       }
+
+       resource "aws_vpc" "sumit-pathnexVPC" {
+         cidr_block = "10.10.0.0/16"
+
+	 tags = {
+	   Name = "sumit-pathnex-VPC"
+	  }
+	 }
+
+	 resouce "aws_subnet" "PathnexSubnet" {
+	   vpc_id                  = aws_vpc.sumit-pathnexVPC.id
+	   cidr_block              = "10.10.1.0/24"
+	   map_public_ip_on_launch = true
+
+	   tags = {
+	     Name = "sumit-pathnex-subnet"
+	    }
+	   }
+
+
+
+	 ##  Kubernetes -Add Liveness & Readiness Probes
+
+	 apiVersion: v1
+	 kind: pod
+	 metadata:
+	    name: sumit-pathnex-probe-pod
+	 spec:
+	   containers:
+	     - name: web
+	     image: nginx
+	     livenessProbe:
+	       httpGet:
+	         pth: /
+		 port:80
+	    initial DelaySeconds: 3
+
+
+	 ##   Shell Script - Loop Through List
+
+	 #!/bin/bash
+
+	 for item in sumit-pathnex Devops Training; do
+	   echo "Item: $item"
+	 done
+
+
+
+	 # Conditional stages
+
+	 ##  Jenkins Pipeline - Conditional Execution
+
+
+	 pipeline {
+	    agent any
+	    parameters {
+	         string(name: 'ENVIRONMENT, defaltive: ;dev', description: 'Deployment Environment')
+            }
+	    environment {
+	        INSTITUTE_NAMe = "Pathnex"
+	    }
+	    stages {
+	       stage('Checkout') {
+	         steps {
+		    git branch: 'main',url: 'https://github.com/sumit-pathnex-java-app.git'
+		  }
+		 }
+          stage('Deploy') {
+	  when {
+	     expressin { params.ENVIRONMENT == 'dev' {
+	     }
+	     steps {
+	        sh 'echo"Deploying to $ENVIRONMENT by $INSTITUTE_NAME"'
+		{
+	      {
+	    {
+	  {
+
+
+
+	  ##  GitLab CI - Conditional Jabs
+
+
+
+	  stages:
+	     - build
+	     - deploy
+
+	   build:
+	      stage: build
+	      image: maven:3.8.1-jdk-17
+	      script:
+	        - git clone https://github.com/sumit-pathnex/sample-java-app.git
+		- cd sample-java-app
+		- mvn clean compile
+	     onle:
+	       - main
+
+
+	     deploy:
+	        stage: deploy
+		image: alpine:latest
+		script:
+		  - echo "Deploying to $CI_ENVIRONMENT_NAME by Sumit-pathnex"
+		only:
+		  variables:
+		    - $CI_ENVIRONMENT_NAME == "dev"
