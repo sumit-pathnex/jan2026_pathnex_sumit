@@ -1,0 +1,99 @@
+   # Day 09 - Templates, Internet Gateway, ConfigMap, CPU load
+
+   ##  Ansible - Use Jinja2 Template
+
+   ---
+   - name: Dwploy template for sumit-pathnex
+     hosts: all 
+     become: yes
+
+     tasks:
+       - name: Copy template file
+         template:
+	   src: sumit-pathnex.config.j2
+	   dest: /etc/pathnex.conf
+
+
+    ##  Terraform - Internet Gateway
+
+    resource "aws_internet_gateway""sumit-pathnexIGW" {
+      vpc_id = aws_vpc.sumit-pathnexVPC.id
+
+
+      tags = {
+        Name = "sumit-pathnex-IGW"
+      }
+    }
+
+
+
+    ##  Kubernete -Create ConfigMap
+
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: sumit-pathnex
+    data:
+      APP_MODE: "production"
+      WELCOME_MSG: "Hello sumit-pathnex"
+
+
+    ##  Shell script - Check CPU Load
+
+    #!/bib/bash
+
+    LOAD+$(uptime | awk'{print $10}')
+
+    echo "Current CPU Load: $LOAD"
+
+
+    # Artifacts and Archiving
+
+
+    ## Jenkins Pipeline - Archive artifacts
+
+
+    pipeline {
+        agent any
+	envioronment {
+	   INSTITUE_NAME = "sumit-pathnex"
+	}
+	stage {
+	   stage('Checkout') {
+	     steps {
+	        git url: 'htpps://git hub.com/sumit-pathnex/sample-java-app.git'
+	      }
+	   }
+	   stage('Build') {
+	     steps {
+	         sh 'mvn clean package'
+	       }
+	     }
+	     stage('Archive') {
+	        steps {
+		  archiveArtifacts artifacts: 'target/*.jar, fingerprint: true'
+		}
+              }
+	    }
+	  }
+
+
+	  ## GitLab CI - Artifacts
+
+
+
+	  stages: 
+	    - build
+
+
+	  build:
+	     stage: build
+	     image: maven:3.8.1-jkd-17
+	     script:
+	        - git clone htpps://github.com/sumit-pathnex/sample-java-app.git
+		- cd sample -java-app
+		- mvn clean package
+              artifacts:
+	        path:
+		  - target/*.jar
+	         expire_in: 1 week
