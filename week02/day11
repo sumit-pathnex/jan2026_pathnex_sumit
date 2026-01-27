@@ -1,0 +1,113 @@
+   # Day 11 - Database, outputs,Sidecars, Functions
+
+   ##   Ansible - install MariaDB
+
+   ---
+   - name: Install MariaDB for sumit-Pathnex
+     hosts: all
+     become: yes
+
+     tasks:
+       - name: Start mariaDB
+         service:
+	   name: mariaDB
+	   state: started
+	   enable: yes
+
+
+
+   ##  Terraform - output Pulic ip (r5.2xlarge)
+
+
+   resource "aws_instance" "sumit-pathnex" {
+      ami             = "ami-0abcd1234abcd1234"
+      instance_type   = "r5.2xlarge"
+
+      tags = {
+        Name = "sumit-pathnex-EC2"
+      }
+    }
+
+    output = "sumit-pathnexip" {
+       value = aws_instance.sumt-pathnexServer.public_ip
+    }
+
+
+    ##  Kubernetes - Sidecar Container
+
+    apiVersion: v1
+    Kind: Pod
+    metadata:
+      name:  sumit-pathnex-sidecar
+    spec:
+     containers:
+        - name; main
+	  image: nginx
+        - name: sidecar
+	  image: busybox
+	  command: ["sh","-c","echo Sidecar running; sleep 3600"]
+
+
+   ##  Shell Script - Function Example
+
+   #!/bin/bash
+
+   greet() {
+      echo "Welcome to sumit-pathnex Devops Training"
+   }
+
+   greet
+
+
+
+
+   # Notifications
+
+   ##   jenkins Pipeline - Email Notifications
+
+
+   pipeline {
+        agent any
+	environment {
+	    INSTITUTE_NAME = "sumit-pathnex"
+        }
+	stages {
+	   stage('checkout') {
+	      steps {
+	         git url:'https://github.com/sumit-pathnex/sample-java-app.git'
+	      }
+	    }
+	  }
+        }
+	post {
+	  success {
+	      mail to: 'gautambagri8826@gmail.com'
+	           subject: "SUCCESS: Build #${env.BUILD_NUMBER}",
+		   body: "Build completed successfully for $INSTITUTE_NAME"
+         }
+	 failure {
+	    mail to: 'gautambagri8826@gmal.com',
+	         subject: "FAILURE: Build #${env.BUILD_NUMBER}",
+        }
+      }
+    }
+
+   ##   GitLabCI - Notifications
+
+
+
+   stages:
+      -build
+
+
+   build:
+      stage: build
+      image: maven:3.8.1-jdk-17
+      script:
+         - git clone https://github.com/sumit-pathnex/sample-java-app.git
+	 - cd sample-java-app
+	 - mvn clean pakage
+      after_script:
+        - echo "Sending notification email to gautambagri8826@gamil.com"
+
+
