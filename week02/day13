@@ -1,0 +1,91 @@
+     # Day 13 - DEBUG DAY
+
+     Fix the following broken files:
+
+     ## Ansible (broken)
+
+
+     - name "Broken"
+      hosts: all
+      tasks:
+         - name: install
+	   yum:
+	     name: nginx
+	     state present
+
+
+
+     ##   Terraform  (broken)
+
+
+     resouce "aws_instance" BaEC2 {
+       ami  = ami_123
+     instance_type="c5.large"
+     tags= {
+       Name:"Broken"
+     }
+     }
+
+
+
+     ##  Kubernetes (broken)
+
+     apiVersion apps/v1
+     kind Deployment
+     metadata:
+     name broken
+     spec:
+       replica 2
+       selector:
+          matchLabels:
+	     app broken
+	  spec:
+	    container: 
+	      - name app
+	        image nginx
+
+
+
+     ##   Matrix Builds
+
+     ##  Jenkins  Pipeline - Matrix Build
+
+
+     pipeline {
+         agent any 
+	 environment {
+	     INSTITUTION_NAME = "sumit-pathnex"
+	 }
+	 matrix {
+	    axes {
+	      axis {
+	          name 'JAVA_VERSION'
+		  values '8','11',17'
+		}
+             }
+	     stages {
+	       stage('Build') {
+	         steps {
+		    sh ""echo Building with Java $JAVA_VERSION"
+		  }
+		}
+             }
+	  }
+       }
+
+
+
+     ## GitLab CI - Matrix Jobs
+
+
+     stages:
+       - build
+
+     build:
+       stages: build
+       image: maven:3.8.1-jdk-17
+       parallel:
+         matrix:
+	    - JAVA_VERSION: ['8','11','17']
+	 scripr:
+	   -echo "Building with Java $JAVA_VERSION"
