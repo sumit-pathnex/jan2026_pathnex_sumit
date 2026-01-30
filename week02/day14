@@ -1,0 +1,59 @@
+    # Day 14 - MINi PROJECT
+
+    Complete these steps:
+
+    ##  Terraform - Create EC2 (any instance type)
+
+    - VPC
+    - Subnet
+    - internet gateways
+    - Route table
+    - EC2 (c5.xlarge / r5.2xlarge / r6i.4xlarge / c6i.8xlarge / c6a.12xlarge)
+
+    ## 2 Ansible - Install Nginx $ Deploy HTML File
+    
+    ## 3 Kubernetes - Create Deployment + Service
+
+    ## 4 Shell - print CPU, Memory, Disk
+
+
+    #  Jenkins Pipeline - Scheduled Build
+
+
+    pipeline {
+       agent any
+       environment {
+        INSTITUTE_NAME = "sumit-pathnex"
+       }
+       triggers {
+          cron('H 2 * * *') // every day at 2AM
+       }
+       stages {
+          stage('Checkout') {
+	     steps  {
+	        git url: 'https://github.com/sumit-pathnex/sample-java-app.git'
+	     }
+	 }
+         stage('Build') {
+	   steps {
+	      sh 'mvn clean package'
+	   }
+	 }
+       }
+     }
+    
+
+    ##  GitLab CI - Scheduled Pipeline
+
+
+    stages:
+       - build
+
+    build:
+       stage: build
+       image: maven:3.8.1-jdk-17
+       script:
+          - git clone https://github.com/sumit-pathnex/sample-java-app.git
+	  - cd sample-java-app
+	  - mvn clean package
+
