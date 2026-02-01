@@ -1,0 +1,124 @@
+    # Day 16 - Ansible Roles, DynamoDB, StatefulSet, Service Check
+
+    ##   Ansible - Create Roles Structure
+
+    # Student must create:
+    # roles/
+    #   sumit-pathnex
+    #     tasks/main.yml
+    #     handlers/main.yml
+    #     templates/
+    #     vars/main.yml
+
+    Example task file:
+
+    ---
+    - name: install httpd
+    yum:
+      name: httpd
+      state:present
+
+
+
+    ##   Terraform - DynamoDB Table
+
+    "resource aws_dynamodb_table" "sumit-pathnexTable" {
+       name               = "sumit-pathnexTrainingTable"
+       billing_mode       = "PAY_PER_REQUEST"
+       hash_Key           = "ID"
+
+       atttributes {
+          namee = "ID"
+	  type = "s"
+       }
+
+       tags = {
+         Name = "sumit-pathnex-DDB"
+       }
+    }
+
+
+
+    ##  Kubernetes - Stateful Set
+
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+        name: sumit-pathnex-db
+    spec:
+      serviceNAME: "sumit-pathnex"
+      replicas: 2
+      selector:
+        matchLabels:
+	   app: sumit-pathnex-bd
+        spec:
+	  container:
+            - name: db
+	      image: mysql
+	      env:
+	        - name: MYSQL_ROOT_PASSWARD
+		  Value: "sumit-pathnex123
+
+
+
+     ##   Shell script - Check Service Running
+
+     #!/bin/bash
+
+     SERVICE="sshd"
+
+     if systemctl is-active --quitet $SERVICE; then
+       echo "$SERVICE is NOT running"
+
+     fi
+
+
+     # Artifacts Promotion
+
+     ##   Jenkins Pipeline - Promotion Artifacts
+
+
+     pipeline {
+        agent any
+	environment {
+            INSTITUTE_NAME = "sumit-pathnex"
+	}
+	stages {
+	    stages {
+	       stage('Build') {
+	          steps {
+		     sh 'mvn clean package
+		  }
+	       }
+	       stage('promote') {
+	           steps {
+		      input message: "Promote artifacts to staging?"
+                      sh 'echo "Promoting artifacts for $INSTITUTE_NAME"'
+		   }
+	       }
+	   }
+	}
+     }
+
+     ##  GitLab  CI - Artifacts Promotion
+
+     stages:
+        - build
+	- promotes
+
+     build:
+        stage: build
+	image: maven:3.8.1-jdk-17
+	script:
+	  - mvn clean package
+	artifacts:
+	  paths:
+	    - target/*.jar
+	  expire_in: 1 week
+
+     promote:
+        stage: promote
+	image: alpine:latest
+	script:
+	   - "echo Promoting artifacts for sumit-pathnex"
+	when: manual
