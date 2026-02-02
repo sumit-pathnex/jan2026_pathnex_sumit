@@ -3,7 +3,7 @@
      ##   Ansible - Create Multiple Users in Loop
 
      ---
-     - name: Create multiple Pathnex users
+     - name: Create multiple sumit-pathnex users
        hosts: all
        become: yes
 
