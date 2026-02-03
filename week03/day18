@@ -1,0 +1,99 @@
+    # Day 18 - Facts, Variables, affinity, Log archivimg
+
+    ##   Ansible - Use Ansible Facts
+
+    ---
+    - name: Show system facts for sumit-pathnex
+      hosts: all
+
+      tasks:
+        - name: Print OS info
+	  debig:
+	    var: ansible_facts['os_family']
+
+	- name: PrintIP address
+	  debug:
+	    var: ansible_facts['default_ipv4']['address']
+
+      ##   Terraform - Variable,Outputs, tvvars
+
+      # variables.tf
+      variable "instance_type" {
+        default = "c6a.12xlarge"
+      }
+
+      #  main.tf
+      resource "aws_instance" "sumit-pathnex" {
+        ami             = "ami-0abcd1234abcd1234"
+	instance_type = var.instance_type
+      }
+
+
+      ## Kubernetes - Node Affinity
+
+      apiVersion: v1
+      kind: pod
+      metadata:
+        name: sumit-pathnex-zffinityspec:
+	  affinity:
+	    nodeAffinity:
+	      requiredDuringScheduleingIgnoredDuringExecution:
+	        nodeSelectorsTerms:
+		  - matchExpression:
+		    -Key:distype
+		      operator: in
+		      value:
+		        - ssd
+        containers:
+	  - name:web
+	    image: nginx
+
+
+      ##   Shell Script - archive Log Files
+
+      #!/bin/bash
+
+      tar -czf /backup/sumit-pathnex-logs-$(date +%F).tar,gz /var/log/
+      acho"Logs archived,"
+
+      # Rollback Simulation
+
+      ## Jenkins Pipeline - Rollback on Failure
+
+      pipeline {
+          ageny any
+	  environmeny {
+	      INSTITUTE_NAME = "sumit-pathnex"
+	  }
+	  stages {
+	      stage('Deploy') {
+	          steps {
+		      script {
+		          try {
+			      sh 'echo "Deploying $INSTITUTE_NAME application..."
+			  }
+	              }
+		  }
+	       }
+	   }
+       }
+
+
+       ## GitLab CI -Pollbck simulation
+
+
+
+       stages:
+         - deploy
+
+       variable:
+         INSTITUTE_NAME: "sumit-pathnex"
+
+       deploy:
+         stage: deploy
+	 image: alpine:latest
+	 script:
+	   - echo "Deploying $INSTITUTE_NAME application..."
+	   - exit 1
+	 after_script:
+	   -echo "Deployment failed. Rolling back $INSTITUTE-NAME application..."
